@@ -1,0 +1,14 @@
+# Ansible
+*.retry
+
+# Secrets
+secrets.yml
+*.key
+*_privatekey
+*_publickey
+
+# SSH
+.ssh/
+
+# OS
+.DS_Store
