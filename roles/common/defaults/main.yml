@@ -1,0 +1,10 @@
+---
+timezone: Europe/London
+
+baseline_packages:
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
+  - apt-transport-https
+  - unattended-upgrades
