@@ -6,6 +6,7 @@ secrets.yml
 *.key
 *_privatekey
 *_publickey
+/inventory/group_vars/**/wireguard.yml
 
 # SSH
 .ssh/
