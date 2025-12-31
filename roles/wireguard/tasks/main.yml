@@ -23,3 +23,50 @@
     name: "wg-quick@{{ wireguard_interface }}"
     enabled: true
     state: started
+
+# UFW Rules
+- name: Ensure UFW is installed
+  apt:
+    name: ufw
+    state: present
+
+- name: Allow WireGuard port
+  ufw:
+    rule: allow
+    port: "{{ wireguard_port }}"
+    proto: udp
+
+- name: Allow SSH
+  ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+    policy: deny
+
+# Enable Forwarding with Ansible (raher than with the wg0.conf config)
+- name: Enable IP forwarding in UFW
+  lineinfile:
+    path: /etc/default/ufw
+    regexp: '^DEFAULT_FORWARD_POLICY='
+    line: 'DEFAULT_FORWARD_POLICY="ACCEPT"'
+  notify: Reload UFW
+
+- name: Add NAT masquerading for WireGuard
+  blockinfile:
+    path: /etc/ufw/before.rules
+    block: |
+      # NAT table rules
+      *nat
+      :POSTROUTING ACCEPT [0:0]
+      -A POSTROUTING -s {{ wireguard_network }} -o {{ external_interface }} -j MASQUERADE
+      COMMIT
+  notify: Reload UFW
+
+#use of blockinfile?
+  # Prevents duplicate rules
+  # Safe re-runs
+  # Clear ownership
