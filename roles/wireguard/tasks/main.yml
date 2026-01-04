@@ -31,19 +31,19 @@
     state: present
 
 - name: Allow WireGuard port
-  ufw:
+  community.general.ufw:
     rule: allow
     port: "{{ wireguard_port }}"
     proto: udp
 
 - name: Allow SSH
-  ufw:
+  community.general.ufw:
     rule: allow
     port: 22
     proto: tcp
 
 - name: Enable UFW
-  ufw:
+  community.general.ufw:
     state: enabled
     policy: deny
 
@@ -66,7 +66,7 @@
       COMMIT
   notify: Reload UFW
 
-#use of blockinfile?
+# use of blockinfile?
   # Prevents duplicate rules
   # Safe re-runs
   # Clear ownership
