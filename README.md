@@ -10,6 +10,7 @@ Designed with security, idempotency, and maintainability in mind.
 - Infrastructure provisioning is intentionally out of scope
 
 ## Design Decisions
+
 * Configuration as Code: Entire setup can be redeployed to a fresh host
 * No provisioning logic: Keeps focus on systems configuration
 * Handlers for service restarts: Prevents unnecessary downtime
@@ -24,6 +25,7 @@ Designed with security, idempotency, and maintainability in mind.
 - Automatic NAT & IP forwarding
 - UFW firewall hardening
 - Unattended OS security updates
+- CI linting via GitHub Actions
 
 ## Technologies
 
