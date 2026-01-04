@@ -9,6 +9,13 @@ Designed with security, idempotency, and maintainability in mind.
 - Host is assumed to already exist and be reachable via SSH
 - Infrastructure provisioning is intentionally out of scope
 
+## Design Decisions
+* Configuration as Code: Entire setup can be redeployed to a fresh host
+* No provisioning logic: Keeps focus on systems configuration
+* Handlers for service restarts: Prevents unnecessary downtime
+* Cron-based DDNS: Simple, reliable, and auditable
+* Single responsibility roles: Improves readability and maintainability
+
 ## Features
 
 - Idempotent Ansible roles
@@ -31,11 +38,12 @@ Laptop / Phone
     |
     |  WireGuard (10.8.0.0/24)
     |
-[ Raspberry Pi 5 ]
+[ Raspberry Pi 5 - VPN Host ]
   - wg0: 10.8.0.1
-  - wlan0 → Internet
-  - UFW firewall
+  - wlan0 Home LAN / Internet
+  - UFW firewall rules
   - NAT (MASQUERADE)
+  - DDNS:    DuckDNS updates
   ```
 
 ## Repository Structure
@@ -46,12 +54,13 @@ inventory/
 ├── group_vars/
 │   └── vpn/
 │       ├── wireguard.yml
-│       └── vault.yml (encrypted)
+│       └── vault.yml          # Encrypted secrets
 roles/
-├── common/
-├── wireguard/
+├── common/                    # OS baseline & hardening
+├── wireguard/                 # VPN, firewall, NAT
+├── ddns/                      # Dynamic DNS automation
 playbooks/
-└── bootstrap.yml
+└── bootstrap.yml              # Main entrypoint
 ```
 
 ## Usage
@@ -66,9 +75,11 @@ ansible-playbook playbooks/bootstrap.yml --ask-pass --ask-become-pass --ask-vaul
 ```
 
 ## Security Notes
-* Private keys are encrypted using Ansible Vault
+* Private keys are encrypted using Ansible Vault, and never store in plain text
 * Firewall rules restrict access to SSH and WireGuard only
 * IP forwarding and NAT are explicitly controlled
+* DDNS update script runs with least privilege
+* Service restarts are handled via Ansible handlers to avoid unnecessary disruption
 
 ## Future Improvements
 * Client config auto-generation

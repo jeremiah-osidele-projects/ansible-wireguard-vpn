@@ -1,0 +1,21 @@
+- name: Create DuckDNS directory
+  file:
+    path: "{{ ddns_install_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Deploy DuckDNS update script
+  template:
+    src: duckdns.sh.j2
+    dest: "{{ ddns_script_path }}"
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Schedule DuckDNS update cron
+  cron:
+    name: "DuckDNS update"
+    minute: "{{ ddns_cron_minute }}"
+    job: "{{ ddns_script_path }} >/dev/null 2>&1"

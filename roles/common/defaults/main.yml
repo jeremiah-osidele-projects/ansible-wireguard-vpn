@@ -1,7 +1,7 @@
 ---
-timezone: Europe/London
+common_timezone: Europe/London
 
-baseline_packages:
+common_baseline_packages:
   - ca-certificates
   - curl
   - gnupg

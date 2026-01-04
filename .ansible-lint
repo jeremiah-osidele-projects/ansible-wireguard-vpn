@@ -1,0 +1,11 @@
+skip_list:
+  - fqcn-builtins        # Keeps examples readable
+  - yaml[truthy]         # Avoids noisy bool warnings
+  - role-name            # Allows descriptive role names
+
+warn_list:
+  - experimental
+
+exclude_paths:
+  - .git/
+  - .ansible/

@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+
+curl -fsS \
+  "https://www.duckdns.org/update?domains={{ duckdns.domain }}&token={{ duckdns.token }}&ip="

@@ -1,0 +1,4 @@
+---
+ddns_install_dir: /opt/duckdns
+ddns_script_path: /opt/duckdns/duck.sh
+ddns_cron_minute: "*/5"

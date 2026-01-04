@@ -6,12 +6,12 @@
 
 - name: Install baseline packages
   apt:
-    name: "{{ baseline_packages }}"
+    name: "{{ common_baseline_packages }}"
     state: present
 
 - name: Set system timezone
-  timezone:
-    name: "{{ timezone }}"
+  community.general.timezone:
+    name: "{{ common_timezone }}"
 
 - name: Ensure unattended-upgrades package is installed
   apt:
